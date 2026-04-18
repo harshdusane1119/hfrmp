@@ -597,8 +597,10 @@ hands.onResults(results => {
       let dx = Math.abs(x - prevX);
       let dy = Math.abs(y - prevY);
 
-      if (dx > 0.05 || dy > 0.05) {
-        gestureScore += 0.5;
+      let movement = dx + dy;
+
+      if (movement > 0.005) {
+        gestureScore += movement * 10;
       }
     }
 
@@ -606,11 +608,10 @@ hands.onResults(results => {
     prevY = y;
   }
 
-  gestureScore -= 0.01;
+  gestureScore -= 0.02;
   gestureScore = Math.max(0, Math.min(10, gestureScore));
   if (gestureLive) gestureLive.innerText = gestureScore.toFixed(1);
 });
-
 // -------- CAMERA --------
 const camera = new Camera(videoElement, {
   onFrame: async () => {
